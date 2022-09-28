@@ -1,23 +1,28 @@
-import MediaPlayer from "./MediaPlayer"
-import AutoPause from './plugins/AutoPause'
-import AutoPlay from './plugins/AutoPlay'
+import MediaPlayer from './MediaPlayer';
+import Ads from './plugins/Ads';
+import AutoPause from './plugins/AutoPause';
+import AutoPlay from './plugins/AutoPlay';
 
-const video: HTMLMediaElement = document.querySelector('video') as HTMLMediaElement
-const player = new MediaPlayer({ elem: video, plugins: [new AutoPlay(), new AutoPause()] })
+const video = document.querySelector('video');
+const player = new MediaPlayer({
+  el: video,
+  plugins: [new AutoPlay(), new AutoPause(), new Ads()],
+});
 
-const playButton: HTMLElement = document.querySelector('#playButton') as HTMLElement
-playButton.onclick = () => player.togglePlay()
+const playButton: HTMLElement = document.querySelector('#playButton');
+playButton.onclick = () => player.togglePlay();
 
-const muteButton: HTMLElement = document.querySelector('#muteButton') as HTMLElement
+const muteButton: HTMLElement = document.querySelector('#muteButton');
 muteButton.onclick = () => {
   if (player.media.muted) {
-    player.unmute()
+    player.unmute();
   } else {
-    player.mute()
+    player.mute();
   }
-}
+};
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-    .catch(error => console.log(error.message))
+  navigator.serviceWorker.register('/sw.js').catch(error => {
+    console.log(error.message);
+  });
 }
